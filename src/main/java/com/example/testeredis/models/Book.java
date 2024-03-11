@@ -1,5 +1,7 @@
 package com.example.testeredis.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
@@ -11,6 +13,9 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @RedisHash
 public class Book {
     @Id
@@ -30,7 +35,7 @@ public class Book {
     private Set<String> authors;
 
     @Reference
-    private Set<Category> categories = new HashSet<Category>();
+    private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {
         categories.add(category);
